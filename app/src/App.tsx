@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, TrendingUp, Shield, BarChart3 } from "lucide-react";
 
 /* ─────────────────────────────────────────────
    Scroll-triggered reveal
@@ -119,6 +119,109 @@ function HeroItem({
   );
 }
 
+/* ─────────────────────────────────────────────
+   Hero — Portfolio Preview (visual anchor)
+   ───────────────────────────────────────────── */
+
+function AllocationBar({
+  label,
+  pct,
+  color,
+}: {
+  label: string;
+  pct: number;
+  color: string;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-xs font-semibold w-10 shrink-0 tabular-nums text-foreground/70">
+        {label}
+      </span>
+      <div className="flex-1 h-2 rounded-full bg-border/60 overflow-hidden">
+        <div
+          className="h-full rounded-full"
+          style={{ width: `${pct}%`, background: color }}
+        />
+      </div>
+      <span className="text-xs tabular-nums text-muted-foreground w-8 text-right">
+        {pct}%
+      </span>
+    </div>
+  );
+}
+
+function PortfolioPreview() {
+  return (
+    <div
+      className="relative w-full max-w-sm mx-auto md:mx-0"
+      style={{ opacity: 0, animation: `fade-up 800ms ${EASE_OUT_QUART} 350ms forwards` }}
+    >
+      {/* Back card — peeking out */}
+      <div
+        className="absolute top-4 -left-3 right-3 bottom-0 rounded-2xl"
+        style={{
+          background: "oklch(0.96 0.03 168)",
+          transform: "rotate(-3deg)",
+          boxShadow: "0 2px 16px oklch(0.55 0.08 168 / 0.06)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Main card */}
+      <div
+        className="relative rounded-2xl p-6 space-y-5"
+        style={{
+          background: "oklch(1 0 0)",
+          boxShadow:
+            "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 32px oklch(0.55 0.08 168 / 0.10)",
+        }}
+      >
+        {/* Card header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground">
+              큐레이션 전략
+            </p>
+            <p className="text-base font-bold mt-0.5">글로벌 성장</p>
+          </div>
+          <div
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
+            style={{
+              background: "oklch(0.93 0.06 168)",
+              color: "oklch(0.35 0.12 168)",
+            }}
+          >
+            <TrendingUp className="size-3" />
+            +18.4%
+          </div>
+        </div>
+
+        {/* Allocation bars */}
+        <div className="space-y-2.5">
+          <AllocationBar label="QQQ" pct={40} color="oklch(0.55 0.15 168)" />
+          <AllocationBar label="SOXX" pct={25} color="oklch(0.65 0.18 145)" />
+          <AllocationBar label="SKYY" pct={20} color="oklch(0.6 0.12 200)" />
+          <AllocationBar label="BND" pct={15} color="oklch(0.75 0.15 90)" />
+        </div>
+
+        {/* Card footer */}
+        <div className="flex items-center justify-between pt-1 border-t border-border/50">
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <Shield className="size-3" />
+              리스크 중간
+            </span>
+            <span className="flex items-center gap-1">
+              <BarChart3 className="size-3" />
+              월간 리밸런싱
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative overflow-hidden">
@@ -144,80 +247,84 @@ function Hero() {
             background: "oklch(0.65 0.12 155 / 0.08)",
           }}
         />
-        <div
-          className="absolute rounded-full"
-          style={{
-            width: 180,
-            height: 180,
-            right: 40,
-            top: 400,
-            background: "oklch(0.75 0.10 168 / 0.10)",
-          }}
-        />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-        <HeroItem delay={0}>
-          <Badge variant="secondary" className="gap-1.5">
-            <Sparkles className="size-3" />
-            2026 리밸런싱 완료!
-          </Badge>
-        </HeroItem>
+        <div className="grid md:grid-cols-[1fr_auto] gap-12 md:gap-16 items-center">
+          {/* Left — text */}
+          <div>
+            <HeroItem delay={0}>
+              <Badge variant="secondary" className="gap-1.5">
+                <TrendingUp className="size-3" />
+                2026 리밸런싱 완료!
+              </Badge>
+            </HeroItem>
 
-        <HeroItem delay={80}>
-          <h1
-            className="mt-6 font-extrabold tracking-tight leading-[1.15]"
-            style={{
-              fontSize: "clamp(2.25rem, 5vw + 0.5rem, 3.75rem)",
-            }}
-          >
-            ETF 투자,
-            <br className="hidden sm:block" /> 쉽고 재밌게
-            <br className="hidden sm:block" /> 시작해볼까요?
-          </h1>
-        </HeroItem>
+            <HeroItem delay={80}>
+              <h1
+                className="mt-6 font-extrabold tracking-tight leading-[1.15]"
+                style={{
+                  fontSize: "clamp(2.25rem, 5vw + 0.5rem, 3.75rem)",
+                }}
+              >
+                ETF 투자,
+                <br className="hidden sm:block" /> 쉽고 재밌게
+                <br className="hidden sm:block" /> 시작해볼까요?
+              </h1>
+            </HeroItem>
 
-        <HeroItem delay={160} className="max-w-lg">
-          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            전문가가 골라준 전략으로 글로벌 ETF 포트폴리오를 자동으로 만들고
-            관리해드려요
-          </p>
-        </HeroItem>
+            <HeroItem delay={160} className="max-w-lg">
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+                전문가가 골라준 전략으로 글로벌 ETF 포트폴리오를 자동으로 만들고
+                관리해드려요
+              </p>
+            </HeroItem>
 
-        <HeroItem delay={260}>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button size="lg" className="rounded-full px-8">
-              포트폴리오 만들기
-            </Button>
-            <Button variant="ghost" size="lg" className="rounded-full gap-2">
-              전략 구경하기
-              <ArrowRight className="size-4" />
-            </Button>
+            <HeroItem delay={260}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button size="lg" className="rounded-full px-8">
+                  포트폴리오 만들기
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="rounded-full gap-2"
+                >
+                  전략 구경하기
+                  <ArrowRight className="size-4" />
+                </Button>
+              </div>
+            </HeroItem>
+
+            <HeroItem delay={400}>
+              <div className="mt-16 flex flex-wrap gap-x-10 gap-y-3 text-sm">
+                <span className="text-muted-foreground">
+                  <strong className="text-foreground font-semibold tabular-nums">
+                    2,400+
+                  </strong>{" "}
+                  ETF 분석
+                </span>
+                <span className="text-muted-foreground">
+                  <strong className="text-foreground font-semibold tabular-nums">
+                    ₩3.2조
+                  </strong>{" "}
+                  운용 규모
+                </span>
+                <span className="text-muted-foreground">
+                  <strong className="text-foreground font-semibold tabular-nums">
+                    12.4%
+                  </strong>{" "}
+                  평균 연수익률
+                </span>
+              </div>
+            </HeroItem>
           </div>
-        </HeroItem>
 
-        <HeroItem delay={400}>
-          <div className="mt-16 flex flex-wrap gap-x-10 gap-y-3 text-sm">
-            <span className="text-muted-foreground">
-              <strong className="text-foreground font-semibold tabular-nums">
-                2,400+
-              </strong>{" "}
-              ETF 분석
-            </span>
-            <span className="text-muted-foreground">
-              <strong className="text-foreground font-semibold tabular-nums">
-                ₩3.2조
-              </strong>{" "}
-              운용 규모
-            </span>
-            <span className="text-muted-foreground">
-              <strong className="text-foreground font-semibold tabular-nums">
-                12.4%
-              </strong>{" "}
-              평균 연수익률
-            </span>
+          {/* Right — portfolio preview */}
+          <div className="hidden md:block">
+            <PortfolioPreview />
           </div>
-        </HeroItem>
+        </div>
       </div>
     </section>
   );
