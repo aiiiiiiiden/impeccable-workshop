@@ -1,18 +1,502 @@
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+
+/* ─────────────────────────────────────────────
+   Scroll-triggered reveal
+   ───────────────────────────────────────────── */
+
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.12 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 650ms cubic-bezier(0.25,1,0.5,1) ${delay}ms, transform 650ms cubic-bezier(0.25,1,0.5,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Header
+   ───────────────────────────────────────────── */
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border/40">
+      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="/" className="text-lg font-extrabold tracking-tight">
+          Curate<span className="text-primary">ETF</span>
+        </a>
+
+        <div className="hidden md:flex items-center gap-8">
+          <a
+            href="#how"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            큐레이션
+          </a>
+          <a
+            href="#strategies"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            전략
+          </a>
+          <a
+            href="#start"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            시작하기
+          </a>
+        </div>
+
+        <Button size="sm" className="rounded-full">
+          무료로 시작
+        </Button>
+      </nav>
+    </header>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────── */
+
+const EASE_OUT_QUART = "cubic-bezier(0.25,1,0.5,1)";
+
+function HeroItem({
+  children,
+  delay,
+  className = "",
+}: {
+  children: ReactNode;
+  delay: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={className}
+      style={{
+        opacity: 0,
+        animation: `fade-up 700ms ${EASE_OUT_QUART} ${delay}ms forwards`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="relative overflow-hidden">
+      {/* Decorative circles */}
+      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 480,
+            height: 480,
+            right: -80,
+            top: -120,
+            background: "oklch(0.55 0.15 168 / 0.06)",
+          }}
+        />
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 300,
+            height: 300,
+            right: 120,
+            top: 200,
+            background: "oklch(0.65 0.12 155 / 0.08)",
+          }}
+        />
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 180,
+            height: 180,
+            right: 40,
+            top: 400,
+            background: "oklch(0.75 0.10 168 / 0.10)",
+          }}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+        <HeroItem delay={0}>
+          <Badge variant="secondary" className="gap-1.5">
+            <Sparkles className="size-3" />
+            2026 리밸런싱 완료!
+          </Badge>
+        </HeroItem>
+
+        <HeroItem delay={80}>
+          <h1
+            className="mt-6 font-extrabold tracking-tight leading-[1.15]"
+            style={{
+              fontSize: "clamp(2.25rem, 5vw + 0.5rem, 3.75rem)",
+            }}
+          >
+            ETF 투자,
+            <br className="hidden sm:block" /> 쉽고 재밌게
+            <br className="hidden sm:block" /> 시작해볼까요?
+          </h1>
+        </HeroItem>
+
+        <HeroItem delay={160} className="max-w-lg">
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+            전문가가 골라준 전략으로 글로벌 ETF 포트폴리오를 자동으로 만들고
+            관리해드려요
+          </p>
+        </HeroItem>
+
+        <HeroItem delay={260}>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" className="rounded-full px-8">
+              포트폴리오 만들기
+            </Button>
+            <Button variant="ghost" size="lg" className="rounded-full gap-2">
+              전략 구경하기
+              <ArrowRight className="size-4" />
+            </Button>
+          </div>
+        </HeroItem>
+
+        <HeroItem delay={400}>
+          <div className="mt-16 flex flex-wrap gap-x-10 gap-y-3 text-sm">
+            <span className="text-muted-foreground">
+              <strong className="text-foreground font-semibold tabular-nums">
+                2,400+
+              </strong>{" "}
+              ETF 분석
+            </span>
+            <span className="text-muted-foreground">
+              <strong className="text-foreground font-semibold tabular-nums">
+                ₩3.2조
+              </strong>{" "}
+              운용 규모
+            </span>
+            <span className="text-muted-foreground">
+              <strong className="text-foreground font-semibold tabular-nums">
+                12.4%
+              </strong>{" "}
+              평균 연수익률
+            </span>
+          </div>
+        </HeroItem>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   How it works
+   ───────────────────────────────────────────── */
+
+const STEPS = [
+  {
+    num: "01",
+    title: "시장을 읽어요",
+    desc: "매크로 지표와 섹터 흐름을 꼼꼼히 분석해요",
+  },
+  {
+    num: "02",
+    title: "ETF를 골라요",
+    desc: "유동성, 비용, 추적오차까지 따져서 최적의 ETF를 찾아요",
+  },
+  {
+    num: "03",
+    title: "리스크를 관리해요",
+    desc: "변동성과 상관관계를 고려해서 비중을 조절해요",
+  },
+];
+
+function HowItWorks() {
+  return (
+    <section
+      id="how"
+      className="py-24"
+      style={{ background: "oklch(0.97 0.012 168)" }}
+    >
+      <div className="max-w-6xl mx-auto px-6">
+        <Reveal>
+          <h2
+            className="font-bold tracking-tight"
+            style={{ fontSize: "clamp(1.5rem, 3vw + 0.25rem, 2.25rem)" }}
+          >
+            이렇게 3단계로 골라드려요
+          </h2>
+        </Reveal>
+
+        <div className="mt-16 grid md:grid-cols-3 gap-12 md:gap-16">
+          {STEPS.map((step, i) => (
+            <Reveal key={step.num} delay={i * 120}>
+              <p className="text-sm font-bold text-primary tabular-nums">
+                {step.num}
+              </p>
+              <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">
+                {step.desc}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Strategies
+   ───────────────────────────────────────────── */
+
+function TickerPill({ children }: { children: string }) {
+  return (
+    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-background/60 text-foreground/80">
+      {children}
+    </span>
+  );
+}
+
+function Strategies() {
+  return (
+    <section id="strategies" className="py-24">
+      <div className="max-w-6xl mx-auto px-6">
+        <Reveal>
+          <h2
+            className="font-bold tracking-tight"
+            style={{ fontSize: "clamp(1.5rem, 3vw + 0.25rem, 2.25rem)" }}
+          >
+            나에게 맞는 전략은?
+          </h2>
+        </Reveal>
+
+        <div className="mt-12 space-y-4">
+          {/* Featured — 테크 혁신 (공격형) */}
+          <Reveal delay={80}>
+            <div
+              className="rounded-2xl p-8 md:p-10"
+              style={{ background: "oklch(0.96 0.035 150)" }}
+            >
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-xl font-bold">테크 혁신</h3>
+                    <span
+                      className="text-xs font-medium px-2.5 py-1 rounded-full"
+                      style={{
+                        background: "oklch(0.90 0.08 85)",
+                        color: "oklch(0.38 0.10 85)",
+                      }}
+                    >
+                      공격형
+                    </span>
+                  </div>
+                  <p className="mt-3 text-muted-foreground leading-relaxed">
+                    AI·반도체·클라우드 중심의 글로벌 성장 테마예요
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    <TickerPill>QQQ</TickerPill>
+                    <TickerPill>SOXX</TickerPill>
+                    <TickerPill>SKYY</TickerPill>
+                  </div>
+                </div>
+                <div className="md:text-right shrink-0">
+                  <p className="text-2xl font-bold text-primary tabular-nums">
+                    +18.4%
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    올해 수익률
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Two side-by-side */}
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* 배당 인컴 (안정형) */}
+            <Reveal delay={180}>
+              <div
+                className="rounded-2xl p-8 h-full"
+                style={{ background: "oklch(0.96 0.025 205)" }}
+              >
+                <div className="flex items-center gap-3">
+                  <h3 className="text-xl font-bold">배당 인컴</h3>
+                  <span
+                    className="text-xs font-medium px-2.5 py-1 rounded-full"
+                    style={{
+                      background: "oklch(0.88 0.06 220)",
+                      color: "oklch(0.38 0.08 220)",
+                    }}
+                  >
+                    안정형
+                  </span>
+                </div>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  고배당 우량주 기반으로 매달 현금흐름을 만들어요
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <TickerPill>SCHD</TickerPill>
+                  <TickerPill>VYM</TickerPill>
+                  <TickerPill>JEPI</TickerPill>
+                </div>
+                <div className="mt-6">
+                  <span className="text-xl font-bold text-primary tabular-nums">
+                    +9.2%
+                  </span>
+                  <span className="text-sm text-muted-foreground ml-2">
+                    올해 수익률
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* 글로벌 분산 (균형형) */}
+            <Reveal delay={280}>
+              <div
+                className="rounded-2xl p-8 h-full"
+                style={{ background: "oklch(0.96 0.03 168)" }}
+              >
+                <div className="flex items-center gap-3">
+                  <h3 className="text-xl font-bold">글로벌 분산</h3>
+                  <span
+                    className="text-xs font-medium px-2.5 py-1 rounded-full"
+                    style={{
+                      background: "oklch(0.88 0.07 168)",
+                      color: "oklch(0.33 0.09 168)",
+                    }}
+                  >
+                    균형형
+                  </span>
+                </div>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  선진국·신흥국 골고루 담은 올웨더 포트폴리오예요
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <TickerPill>VT</TickerPill>
+                  <TickerPill>VXUS</TickerPill>
+                  <TickerPill>BND</TickerPill>
+                </div>
+                <div className="mt-6">
+                  <span className="text-xl font-bold text-primary tabular-nums">
+                    +12.7%
+                  </span>
+                  <span className="text-sm text-muted-foreground ml-2">
+                    올해 수익률
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   CTA
+   ───────────────────────────────────────────── */
+
+function CtaSection() {
+  return (
+    <section
+      id="start"
+      className="py-24"
+      style={{ background: "oklch(0.94 0.04 168)" }}
+    >
+      <div className="max-w-6xl mx-auto px-6 text-center">
+        <Reveal>
+          <h2
+            className="font-bold tracking-tight"
+            style={{ fontSize: "clamp(1.5rem, 3vw + 0.25rem, 2.25rem)" }}
+          >
+            글로벌 ETF 투자, 같이 시작해봐요!
+          </h2>
+          <p className="mt-4 text-muted-foreground text-lg">
+            3분이면 나만의 포트폴리오를 만들 수 있어요
+          </p>
+          <div className="mt-8">
+            <Button size="lg" className="rounded-full px-10">
+              무료로 시작하기
+            </Button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Footer
+   ───────────────────────────────────────────── */
+
+function Footer() {
+  return (
+    <footer className="py-12 border-t border-border/40">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a href="/" className="text-sm font-bold tracking-tight">
+          Curate<span className="text-primary">ETF</span>
+        </a>
+        <p className="text-xs text-muted-foreground">
+          © 2026 CurateETF. 투자에는 원금 손실의 위험이 있습니다.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   App
+   ───────────────────────────────────────────── */
 
 function App() {
   return (
-    <div className="min-h-svh flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">
-          ETF Curation
-        </h1>
-        <p className="text-muted-foreground">
-          워크샵 프로젝트 준비 완료
-        </p>
-        <Button>시작하기</Button>
-      </div>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <HowItWorks />
+        <Strategies />
+        <CtaSection />
+      </main>
+      <Footer />
+    </>
   );
 }
 
