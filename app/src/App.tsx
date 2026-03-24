@@ -8,6 +8,8 @@ import {
   BarChart3,
   LineChart,
   SlidersHorizontal,
+  Menu,
+  X,
   type LucideIcon,
 } from "lucide-react";
 
@@ -62,7 +64,15 @@ function Reveal({
    Header
    ───────────────────────────────────────────── */
 
+const NAV_LINKS = [
+  { href: "#how", label: "큐레이션" },
+  { href: "#strategies", label: "전략" },
+  { href: "#start", label: "시작하기" },
+];
+
 function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border/40">
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -70,31 +80,54 @@ function Header() {
           Curate<span className="text-primary">ETF</span>
         </a>
 
+        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
-          <a
-            href="#how"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            큐레이션
-          </a>
-          <a
-            href="#strategies"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            전략
-          </a>
-          <a
-            href="#start"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            시작하기
-          </a>
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        <Button size="sm" className="rounded-full">
-          무료로 시작
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button size="sm" className="rounded-full">
+            무료로 시작
+          </Button>
+
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </nav>
+
+      {/* Mobile nav panel */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="block px-3 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -306,14 +339,14 @@ function Hero() {
 
             <HeroItem delay={400}>
               <div
-                className="mt-14 inline-flex flex-wrap gap-6 rounded-2xl px-6 py-5"
+                className="mt-14 grid grid-cols-3 gap-4 sm:inline-flex sm:gap-6 rounded-2xl px-5 sm:px-6 py-5"
                 style={{
                   background: "oklch(0.97 0.012 168)",
                   boxShadow: "inset 0 0 0 1px oklch(0.92 0.02 168)",
                 }}
               >
-                <div className="text-center min-w-[5rem]">
-                  <p className="text-xl font-bold tabular-nums text-foreground">
+                <div className="text-center">
+                  <p className="text-lg sm:text-xl font-bold tabular-nums text-foreground">
                     2,400+
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -321,12 +354,12 @@ function Hero() {
                   </p>
                 </div>
                 <div
-                  className="w-px self-stretch"
+                  className="hidden sm:block w-px self-stretch"
                   style={{ background: "oklch(0.90 0.02 168)" }}
                   aria-hidden="true"
                 />
-                <div className="text-center min-w-[5rem]">
-                  <p className="text-xl font-bold tabular-nums text-foreground">
+                <div className="text-center">
+                  <p className="text-lg sm:text-xl font-bold tabular-nums text-foreground">
                     ₩3.2조
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -334,12 +367,12 @@ function Hero() {
                   </p>
                 </div>
                 <div
-                  className="w-px self-stretch"
+                  className="hidden sm:block w-px self-stretch"
                   style={{ background: "oklch(0.90 0.02 168)" }}
                   aria-hidden="true"
                 />
-                <div className="text-center min-w-[5rem]">
-                  <p className="text-xl font-bold tabular-nums text-foreground">
+                <div className="text-center">
+                  <p className="text-lg sm:text-xl font-bold tabular-nums text-foreground">
                     12.4%
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
