@@ -81,6 +81,26 @@
   }
 }
 
+/* ── Strategy card interaction ── */
+.strategy-card {
+  transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 300ms cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+}
+.strategy-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px oklch(0 0 0 / 0.06);
+}
+.strategy-card .card-arrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 200ms, transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+.strategy-card:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -497,7 +497,7 @@ function Strategies() {
           {/* Featured — 테크 혁신 (공격형) */}
           <Reveal delay={80}>
             <div
-              className="rounded-2xl p-8 md:p-10"
+              className="strategy-card rounded-2xl p-8 md:p-10"
               style={{ background: "oklch(0.96 0.035 150)" }}
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
@@ -523,13 +523,19 @@ function Strategies() {
                     <TickerPill>SKYY</TickerPill>
                   </div>
                 </div>
-                <div className="md:text-right shrink-0">
-                  <p className="text-2xl font-bold text-primary tabular-nums">
-                    +18.4%
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    올해 수익률
-                  </p>
+                <div className="md:text-right shrink-0 flex flex-col items-start md:items-end gap-3">
+                  <div>
+                    <p className="text-2xl font-bold text-primary tabular-nums">
+                      +18.4%
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      올해 수익률
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                    이 전략으로 시작하기
+                    <ArrowRight className="size-4 card-arrow" />
+                  </span>
                 </div>
               </div>
             </div>
@@ -540,7 +546,7 @@ function Strategies() {
             {/* 배당 인컴 (안정형) */}
             <Reveal delay={180}>
               <div
-                className="rounded-2xl p-8 h-full"
+                className="strategy-card rounded-2xl p-8 h-full flex flex-col"
                 style={{ background: "oklch(0.96 0.025 205)" }}
               >
                 <div className="flex items-center gap-3">
@@ -563,13 +569,18 @@ function Strategies() {
                   <TickerPill>VYM</TickerPill>
                   <TickerPill>JEPI</TickerPill>
                 </div>
-                <div className="mt-6">
-                  <span className="text-xl font-bold text-primary tabular-nums">
-                    +9.2%
-                  </span>
-                  <span className="text-sm text-muted-foreground ml-2">
-                    올해 수익률
-                  </span>
+                <div className="mt-auto pt-6 flex items-center justify-between">
+                  <div>
+                    <span className="text-xl font-bold text-primary tabular-nums">
+                      +9.2%
+                    </span>
+                    <span className="text-sm text-muted-foreground ml-2">
+                      올해 수익률
+                    </span>
+                  </div>
+                  <ArrowRight
+                    className="size-4 card-arrow text-primary"
+                  />
                 </div>
               </div>
             </Reveal>
@@ -577,7 +588,7 @@ function Strategies() {
             {/* 글로벌 분산 (균형형) */}
             <Reveal delay={280}>
               <div
-                className="rounded-2xl p-8 h-full"
+                className="strategy-card rounded-2xl p-8 h-full flex flex-col"
                 style={{ background: "oklch(0.96 0.03 168)" }}
               >
                 <div className="flex items-center gap-3">
@@ -600,13 +611,18 @@ function Strategies() {
                   <TickerPill>VXUS</TickerPill>
                   <TickerPill>BND</TickerPill>
                 </div>
-                <div className="mt-6">
-                  <span className="text-xl font-bold text-primary tabular-nums">
-                    +12.7%
-                  </span>
-                  <span className="text-sm text-muted-foreground ml-2">
-                    올해 수익률
-                  </span>
+                <div className="mt-auto pt-6 flex items-center justify-between">
+                  <div>
+                    <span className="text-xl font-bold text-primary tabular-nums">
+                      +12.7%
+                    </span>
+                    <span className="text-sm text-muted-foreground ml-2">
+                      올해 수익률
+                    </span>
+                  </div>
+                  <ArrowRight
+                    className="size-4 card-arrow text-primary"
+                  />
                 </div>
               </div>
             </Reveal>
