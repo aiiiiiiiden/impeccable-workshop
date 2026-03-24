@@ -344,7 +344,7 @@ function Hero() {
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
                     평균 연수익률
-                    <span className="block text-[10px] text-muted-foreground/70">
+                    <span className="block text-[11px] text-muted-foreground/70">
                       최근 3년 기준
                     </span>
                   </p>
@@ -353,8 +353,8 @@ function Hero() {
             </HeroItem>
           </div>
 
-          {/* Right — portfolio preview */}
-          <div className="hidden md:block">
+          {/* Right — portfolio preview (decorative) */}
+          <div className="hidden md:block" aria-hidden="true">
             <PortfolioPreview />
           </div>
         </div>
@@ -401,6 +401,41 @@ const STEPS: {
   },
 ];
 
+function StepCard({
+  step,
+  Icon,
+}: {
+  step: (typeof STEPS)[number];
+  Icon: LucideIcon;
+}) {
+  return (
+    <div
+      className="rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-md"
+      style={{
+        background: "oklch(1 0 0)",
+        boxShadow: "0 1px 4px oklch(0 0 0 / 0.04)",
+      }}
+    >
+      <div
+        className="inline-flex items-center justify-center size-11 rounded-xl"
+        style={{ background: step.bgColor }}
+      >
+        <Icon className="size-5" style={{ color: step.color }} />
+      </div>
+      <p
+        className="mt-4 text-xs font-bold tabular-nums"
+        style={{ color: step.color }}
+      >
+        STEP {step.num}
+      </p>
+      <h3 className="mt-2 text-lg font-bold">{step.title}</h3>
+      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+        {step.desc}
+      </p>
+    </div>
+  );
+}
+
 function StepConnector() {
   return (
     <div
@@ -432,61 +467,42 @@ function HowItWorks() {
           </h2>
         </Reveal>
 
-        {/* Steps with connectors: card → arrow → card → arrow → card */}
-        <div className="mt-16 grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-6 md:gap-4 items-stretch">
+        {/* Steps — mobile: vertical stack, desktop: grid with connectors */}
+        {/* Mobile layout */}
+        <div className="mt-16 flex flex-col gap-4 md:hidden">
           {STEPS.map((step, i) => {
             const Icon = step.icon;
             return (
-              <Reveal key={step.num} delay={i * 140} className="contents md:block">
-                {/* Mobile: vertical connector */}
+              <Reveal key={step.num} delay={i * 140}>
                 {i > 0 && (
-                  <div
-                    className="flex md:hidden justify-center py-1"
-                    aria-hidden="true"
-                  >
+                  <div className="flex justify-center py-1 mb-4" aria-hidden="true">
                     <ArrowRight
                       className="size-5 rotate-90"
                       style={{ color: "oklch(0.75 0.06 168)" }}
                     />
                   </div>
                 )}
-
-                {/* Step card */}
-                <div
-                  className="rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-md"
-                  style={{
-                    background: "oklch(1 0 0)",
-                    boxShadow: "0 1px 4px oklch(0 0 0 / 0.04)",
-                  }}
-                >
-                  {/* Icon circle */}
-                  <div
-                    className="inline-flex items-center justify-center size-11 rounded-xl"
-                    style={{ background: step.bgColor }}
-                  >
-                    <Icon className="size-5" style={{ color: step.color }} />
-                  </div>
-
-                  <p
-                    className="mt-4 text-xs font-bold tabular-nums"
-                    style={{ color: step.color }}
-                  >
-                    STEP {step.num}
-                  </p>
-                  <h3 className="mt-2 text-lg font-bold">{step.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
+                <StepCard step={step} Icon={Icon} />
               </Reveal>
             );
-          }).reduce<ReactNode[]>((acc, card, i) => {
+          })}
+        </div>
+
+        {/* Desktop layout */}
+        <div className="mt-16 hidden md:grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 items-stretch">
+          {STEPS.map((step, i) => {
+            const Icon = step.icon;
+            const elements: ReactNode[] = [];
             if (i > 0) {
-              acc.push(<StepConnector key={`conn-${i}`} />);
+              elements.push(<StepConnector key={`conn-${i}`} />);
             }
-            acc.push(card);
-            return acc;
-          }, [])}
+            elements.push(
+              <Reveal key={step.num} delay={i * 140}>
+                <StepCard step={step} Icon={Icon} />
+              </Reveal>
+            );
+            return elements;
+          })}
         </div>
       </div>
     </section>
@@ -521,8 +537,9 @@ function Strategies() {
         <div className="mt-12 space-y-4">
           {/* Featured — 테크 혁신 (공격형) */}
           <Reveal delay={80}>
-            <div
-              className="strategy-card rounded-2xl p-8 md:p-10"
+            <a
+              href="#"
+              className="strategy-card block rounded-2xl p-8 md:p-10 no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               style={{ background: "oklch(0.96 0.035 150)" }}
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
@@ -563,15 +580,16 @@ function Strategies() {
                   </span>
                 </div>
               </div>
-            </div>
+            </a>
           </Reveal>
 
           {/* Two side-by-side */}
           <div className="grid md:grid-cols-2 gap-4">
             {/* 배당 인컴 (안정형) */}
             <Reveal delay={180}>
-              <div
-                className="strategy-card rounded-2xl p-8 h-full flex flex-col"
+              <a
+                href="#"
+                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                 style={{ background: "oklch(0.96 0.025 205)" }}
               >
                 <div className="flex items-center gap-3">
@@ -607,13 +625,14 @@ function Strategies() {
                     className="size-4 card-arrow text-primary"
                   />
                 </div>
-              </div>
+              </a>
             </Reveal>
 
             {/* 글로벌 분산 (균형형) */}
             <Reveal delay={280}>
-              <div
-                className="strategy-card rounded-2xl p-8 h-full flex flex-col"
+              <a
+                href="#"
+                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                 style={{ background: "oklch(0.96 0.03 168)" }}
               >
                 <div className="flex items-center gap-3">
@@ -649,7 +668,7 @@ function Strategies() {
                     className="size-4 card-arrow text-primary"
                   />
                 </div>
-              </div>
+              </a>
             </Reveal>
           </div>
         </div>
@@ -768,8 +787,14 @@ function Footer() {
 function App() {
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:text-sm focus:font-medium"
+      >
+        본문으로 건너뛰기
+      </a>
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <HowItWorks />
         <Strategies />
