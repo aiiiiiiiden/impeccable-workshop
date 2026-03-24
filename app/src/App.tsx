@@ -199,22 +199,20 @@ function PortfolioPreview() {
     >
       {/* Back card — peeking out */}
       <div
-        className="absolute top-4 -left-3 right-3 bottom-0 rounded-2xl"
+        className="absolute top-4 -left-3 right-3 bottom-0 rounded-2xl bg-secondary"
         style={{
-          background: "oklch(0.96 0.03 168)",
           transform: "rotate(-3deg)",
-          boxShadow: "0 2px 16px oklch(0.55 0.08 168 / 0.06)",
+          boxShadow: "0 2px 16px var(--color-primary) / 0.06",
         }}
         aria-hidden="true"
       />
 
       {/* Main card */}
       <div
-        className="relative rounded-2xl p-6 space-y-5"
+        className="relative rounded-2xl p-6 space-y-5 bg-surface-elevated"
         style={{
-          background: "oklch(1 0 0)",
           boxShadow:
-            "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 32px oklch(0.55 0.08 168 / 0.10)",
+            "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 32px var(--color-primary) / 0.10",
         }}
       >
         {/* Card header */}
@@ -225,24 +223,18 @@ function PortfolioPreview() {
             </p>
             <p className="text-base font-bold mt-0.5">글로벌 성장</p>
           </div>
-          <div
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
-            style={{
-              background: "oklch(0.93 0.06 168)",
-              color: "oklch(0.35 0.12 168)",
-            }}
-          >
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-accent text-accent-foreground">
             <TrendingUp className="size-3" />
             +18.4%
           </div>
         </div>
 
-        {/* Allocation bars */}
+        {/* Allocation bars — use chart color tokens */}
         <div className="space-y-2.5">
-          <AllocationBar label="QQQ" pct={40} color="oklch(0.55 0.15 168)" />
-          <AllocationBar label="SOXX" pct={25} color="oklch(0.65 0.18 145)" />
-          <AllocationBar label="SKYY" pct={20} color="oklch(0.6 0.12 200)" />
-          <AllocationBar label="BND" pct={15} color="oklch(0.75 0.15 90)" />
+          <AllocationBar label="QQQ" pct={40} color="var(--color-chart-1)" />
+          <AllocationBar label="SOXX" pct={25} color="var(--color-chart-2)" />
+          <AllocationBar label="SKYY" pct={20} color="var(--color-chart-3)" />
+          <AllocationBar label="BND" pct={15} color="var(--color-chart-4)" />
         </div>
 
         {/* Card footer */}
@@ -275,7 +267,7 @@ function Hero() {
             height: 480,
             right: -80,
             top: -120,
-            background: "oklch(0.55 0.15 168 / 0.06)",
+            background: "color-mix(in oklch, var(--color-primary) 6%, transparent)",
           }}
         />
         <div
@@ -285,7 +277,7 @@ function Hero() {
             height: 300,
             right: 120,
             top: 200,
-            background: "oklch(0.65 0.12 155 / 0.08)",
+            background: "color-mix(in oklch, var(--color-chart-2) 8%, transparent)",
           }}
         />
       </div>
@@ -338,13 +330,7 @@ function Hero() {
             </HeroItem>
 
             <HeroItem delay={400}>
-              <div
-                className="mt-14 grid grid-cols-3 gap-4 sm:inline-flex sm:gap-6 rounded-2xl px-5 sm:px-6 py-5"
-                style={{
-                  background: "oklch(0.97 0.012 168)",
-                  boxShadow: "inset 0 0 0 1px oklch(0.92 0.02 168)",
-                }}
-              >
+              <div className="mt-14 grid grid-cols-3 gap-4 sm:inline-flex sm:gap-6 rounded-2xl px-5 sm:px-6 py-5 bg-surface-section border border-border/60">
                 <div className="text-center">
                   <p className="text-lg sm:text-xl font-bold tabular-nums text-foreground">
                     2,400+
@@ -354,8 +340,7 @@ function Hero() {
                   </p>
                 </div>
                 <div
-                  className="hidden sm:block w-px self-stretch"
-                  style={{ background: "oklch(0.90 0.02 168)" }}
+                  className="hidden sm:block w-px self-stretch bg-border"
                   aria-hidden="true"
                 />
                 <div className="text-center">
@@ -367,8 +352,7 @@ function Hero() {
                   </p>
                 </div>
                 <div
-                  className="hidden sm:block w-px self-stretch"
-                  style={{ background: "oklch(0.90 0.02 168)" }}
+                  className="hidden sm:block w-px self-stretch bg-border"
                   aria-hidden="true"
                 />
                 <div className="text-center">
@@ -405,32 +389,32 @@ const STEPS: {
   title: string;
   desc: string;
   icon: LucideIcon;
-  color: string;
-  bgColor: string;
+  colorVar: string;
+  bgVar: string;
 }[] = [
   {
     num: "01",
     title: "시장을 읽어요",
     desc: "매크로 지표와 섹터 흐름을 꼼꼼히 분석해요",
     icon: LineChart,
-    color: "oklch(0.45 0.14 168)",
-    bgColor: "oklch(0.95 0.04 168)",
+    colorVar: "var(--color-step-1)",
+    bgVar: "var(--color-step-1-bg)",
   },
   {
     num: "02",
     title: "ETF를 골라요",
     desc: "유동성, 비용, 추적오차까지 따져서 최적의 ETF를 찾아요",
     icon: BarChart3,
-    color: "oklch(0.45 0.14 145)",
-    bgColor: "oklch(0.95 0.04 145)",
+    colorVar: "var(--color-step-2)",
+    bgVar: "var(--color-step-2-bg)",
   },
   {
     num: "03",
     title: "리스크를 관리해요",
     desc: "변동성과 상관관계를 고려해서 비중을 조절해요",
     icon: SlidersHorizontal,
-    color: "oklch(0.45 0.10 200)",
-    bgColor: "oklch(0.95 0.03 200)",
+    colorVar: "var(--color-step-3)",
+    bgVar: "var(--color-step-3-bg)",
   },
 ];
 
@@ -442,22 +426,16 @@ function StepCard({
   Icon: LucideIcon;
 }) {
   return (
-    <div
-      className="rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-md"
-      style={{
-        background: "oklch(1 0 0)",
-        boxShadow: "0 1px 4px oklch(0 0 0 / 0.04)",
-      }}
-    >
+    <div className="rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-md bg-surface-elevated shadow-xs">
       <div
         className="inline-flex items-center justify-center size-11 rounded-xl"
-        style={{ background: step.bgColor }}
+        style={{ background: step.bgVar }}
       >
-        <Icon className="size-5" style={{ color: step.color }} />
+        <Icon className="size-5" style={{ color: step.colorVar }} />
       </div>
       <p
         className="mt-4 text-xs font-bold tabular-nums"
-        style={{ color: step.color }}
+        style={{ color: step.colorVar }}
       >
         STEP {step.num}
       </p>
@@ -475,21 +453,14 @@ function StepConnector() {
       className="hidden md:flex items-center justify-center"
       aria-hidden="true"
     >
-      <ArrowRight
-        className="size-5"
-        style={{ color: "oklch(0.75 0.06 168)" }}
-      />
+      <ArrowRight className="size-5 text-connector" />
     </div>
   );
 }
 
 function HowItWorks() {
   return (
-    <section
-      id="how"
-      className="py-24"
-      style={{ background: "oklch(0.97 0.012 168)" }}
-    >
+    <section id="how" className="py-24 bg-surface-section">
       <div className="max-w-6xl mx-auto px-6">
         <Reveal>
           <h2
@@ -509,10 +480,7 @@ function HowItWorks() {
               <Reveal key={step.num} delay={i * 140}>
                 {i > 0 && (
                   <div className="flex justify-center py-1 mb-4" aria-hidden="true">
-                    <ArrowRight
-                      className="size-5 rotate-90"
-                      style={{ color: "oklch(0.75 0.06 168)" }}
-                    />
+                    <ArrowRight className="size-5 rotate-90 text-connector" />
                   </div>
                 )}
                 <StepCard step={step} Icon={Icon} />
@@ -572,20 +540,13 @@ function Strategies() {
           <Reveal delay={80}>
             <a
               href="#"
-              className="strategy-card block rounded-2xl p-8 md:p-10 no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-              style={{ background: "oklch(0.96 0.035 150)" }}
+              className="strategy-card block rounded-2xl p-8 md:p-10 no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-tech"
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
                     <h3 className="text-xl font-bold">테크 혁신</h3>
-                    <span
-                      className="text-xs font-medium px-2.5 py-1 rounded-full"
-                      style={{
-                        background: "oklch(0.90 0.08 85)",
-                        color: "oklch(0.38 0.10 85)",
-                      }}
-                    >
+                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-badge-aggressive-bg text-badge-aggressive-fg">
                       공격형
                     </span>
                   </div>
@@ -622,18 +583,11 @@ function Strategies() {
             <Reveal delay={180}>
               <a
                 href="#"
-                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                style={{ background: "oklch(0.96 0.025 205)" }}
+                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-dividend"
               >
                 <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold">배당 인컴</h3>
-                  <span
-                    className="text-xs font-medium px-2.5 py-1 rounded-full"
-                    style={{
-                      background: "oklch(0.88 0.06 220)",
-                      color: "oklch(0.38 0.08 220)",
-                    }}
-                  >
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-badge-stable-bg text-badge-stable-fg">
                     안정형
                   </span>
                 </div>
@@ -654,9 +608,7 @@ function Strategies() {
                       올해 수익률
                     </span>
                   </div>
-                  <ArrowRight
-                    className="size-4 card-arrow text-primary"
-                  />
+                  <ArrowRight className="size-4 card-arrow text-primary" />
                 </div>
               </a>
             </Reveal>
@@ -665,18 +617,11 @@ function Strategies() {
             <Reveal delay={280}>
               <a
                 href="#"
-                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                style={{ background: "oklch(0.96 0.03 168)" }}
+                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-global"
               >
                 <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold">글로벌 분산</h3>
-                  <span
-                    className="text-xs font-medium px-2.5 py-1 rounded-full"
-                    style={{
-                      background: "oklch(0.88 0.07 168)",
-                      color: "oklch(0.33 0.09 168)",
-                    }}
-                  >
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-badge-balanced-bg text-badge-balanced-fg">
                     균형형
                   </span>
                 </div>
@@ -697,9 +642,7 @@ function Strategies() {
                       올해 수익률
                     </span>
                   </div>
-                  <ArrowRight
-                    className="size-4 card-arrow text-primary"
-                  />
+                  <ArrowRight className="size-4 card-arrow text-primary" />
                 </div>
               </a>
             </Reveal>
@@ -717,11 +660,8 @@ function Strategies() {
 function CtaSection() {
   return (
     <section id="start" className="py-24 relative overflow-hidden">
-      {/* Background with stronger teal */}
-      <div
-        className="absolute inset-0 -z-10"
-        style={{ background: "oklch(0.94 0.04 168)" }}
-      />
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 bg-surface-cta" />
       {/* Decorative circle */}
       <div
         className="absolute -z-10 rounded-full"
@@ -731,7 +671,7 @@ function CtaSection() {
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
-          background: "oklch(0.55 0.15 168 / 0.06)",
+          background: "color-mix(in oklch, var(--color-primary) 6%, transparent)",
         }}
         aria-hidden="true"
       />
@@ -739,18 +679,8 @@ function CtaSection() {
       <div className="max-w-2xl mx-auto px-6 text-center">
         <Reveal>
           {/* Time promise — promoted to hero element */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
-            style={{
-              background: "oklch(1 0 0)",
-              color: "oklch(0.35 0.12 168)",
-              boxShadow: "0 1px 8px oklch(0.55 0.08 168 / 0.12)",
-            }}
-          >
-            <span
-              className="inline-flex items-center justify-center size-6 rounded-full text-xs font-bold text-white"
-              style={{ background: "oklch(0.55 0.15 168)" }}
-            >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6 bg-surface-elevated text-accent-foreground shadow-sm">
+            <span className="inline-flex items-center justify-center size-6 rounded-full text-xs font-bold text-primary-foreground bg-primary">
               3
             </span>
             분이면 포트폴리오 완성
