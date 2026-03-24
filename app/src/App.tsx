@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, Shield, BarChart3 } from "lucide-react";
+import {
+  ArrowRight,
+  TrendingUp,
+  Shield,
+  BarChart3,
+  LineChart,
+  SlidersHorizontal,
+  type LucideIcon,
+} from "lucide-react";
 
 /* ─────────────────────────────────────────────
    Scroll-triggered reveal
@@ -334,23 +342,53 @@ function Hero() {
    How it works
    ───────────────────────────────────────────── */
 
-const STEPS = [
+const STEPS: {
+  num: string;
+  title: string;
+  desc: string;
+  icon: LucideIcon;
+  color: string;
+  bgColor: string;
+}[] = [
   {
     num: "01",
     title: "시장을 읽어요",
     desc: "매크로 지표와 섹터 흐름을 꼼꼼히 분석해요",
+    icon: LineChart,
+    color: "oklch(0.45 0.14 168)",
+    bgColor: "oklch(0.95 0.04 168)",
   },
   {
     num: "02",
     title: "ETF를 골라요",
     desc: "유동성, 비용, 추적오차까지 따져서 최적의 ETF를 찾아요",
+    icon: BarChart3,
+    color: "oklch(0.45 0.14 145)",
+    bgColor: "oklch(0.95 0.04 145)",
   },
   {
     num: "03",
     title: "리스크를 관리해요",
     desc: "변동성과 상관관계를 고려해서 비중을 조절해요",
+    icon: SlidersHorizontal,
+    color: "oklch(0.45 0.10 200)",
+    bgColor: "oklch(0.95 0.03 200)",
   },
 ];
+
+function StepConnector() {
+  return (
+    <div
+      className="hidden md:flex items-center justify-center"
+      aria-hidden="true"
+    >
+      <ArrowRight
+        className="size-5"
+        style={{ color: "oklch(0.75 0.06 168)" }}
+      />
+    </div>
+  );
+}
 
 function HowItWorks() {
   return (
@@ -369,18 +407,61 @@ function HowItWorks() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-12 md:gap-16">
-          {STEPS.map((step, i) => (
-            <Reveal key={step.num} delay={i * 120}>
-              <p className="text-sm font-bold text-primary tabular-nums">
-                {step.num}
-              </p>
-              <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">
-                {step.desc}
-              </p>
-            </Reveal>
-          ))}
+        {/* Steps with connectors: card → arrow → card → arrow → card */}
+        <div className="mt-16 grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-6 md:gap-4 items-stretch">
+          {STEPS.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <Reveal key={step.num} delay={i * 140} className="contents md:block">
+                {/* Mobile: vertical connector */}
+                {i > 0 && (
+                  <div
+                    className="flex md:hidden justify-center py-1"
+                    aria-hidden="true"
+                  >
+                    <ArrowRight
+                      className="size-5 rotate-90"
+                      style={{ color: "oklch(0.75 0.06 168)" }}
+                    />
+                  </div>
+                )}
+
+                {/* Step card */}
+                <div
+                  className="rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-md"
+                  style={{
+                    background: "oklch(1 0 0)",
+                    boxShadow: "0 1px 4px oklch(0 0 0 / 0.04)",
+                  }}
+                >
+                  {/* Icon circle */}
+                  <div
+                    className="inline-flex items-center justify-center size-11 rounded-xl"
+                    style={{ background: step.bgColor }}
+                  >
+                    <Icon className="size-5" style={{ color: step.color }} />
+                  </div>
+
+                  <p
+                    className="mt-4 text-xs font-bold tabular-nums"
+                    style={{ color: step.color }}
+                  >
+                    STEP {step.num}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold">{step.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          }).reduce<ReactNode[]>((acc, card, i) => {
+            if (i > 0) {
+              acc.push(<StepConnector key={`conn-${i}`} />);
+            }
+            acc.push(card);
+            return acc;
+          }, [])}
         </div>
       </div>
     </section>
