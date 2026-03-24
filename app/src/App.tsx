@@ -113,7 +113,7 @@ function Header() {
 
       {/* Mobile nav panel */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md">
+        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md mobile-nav-enter">
           <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <a
@@ -202,7 +202,7 @@ function PortfolioPreview() {
         className="absolute top-4 -left-3 right-3 bottom-0 rounded-2xl bg-secondary"
         style={{
           transform: "rotate(-3deg)",
-          boxShadow: "0 2px 16px var(--color-primary) / 0.06",
+          boxShadow: "0 2px 16px color-mix(in oklch, var(--color-primary) 6%, transparent)",
         }}
         aria-hidden="true"
       />
@@ -212,7 +212,7 @@ function PortfolioPreview() {
         className="relative rounded-2xl p-6 space-y-5 bg-surface-elevated"
         style={{
           boxShadow:
-            "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 32px var(--color-primary) / 0.10",
+            "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 32px color-mix(in oklch, var(--color-primary) 10%, transparent)",
         }}
       >
         {/* Card header */}
@@ -583,7 +583,7 @@ function Strategies() {
             <Reveal delay={180}>
               <a
                 href="#"
-                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-dividend"
+                className="strategy-card flex flex-col rounded-2xl p-8 h-full no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-dividend"
               >
                 <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold">배당 인컴</h3>
@@ -608,7 +608,10 @@ function Strategies() {
                       올해 수익률
                     </span>
                   </div>
-                  <ArrowRight className="size-4 card-arrow text-primary" />
+                  <span className="inline-flex items-center gap-1 text-sm font-medium card-cta text-muted-foreground transition-colors">
+                    자세히
+                    <ArrowRight className="size-4 card-arrow" />
+                  </span>
                 </div>
               </a>
             </Reveal>
@@ -617,7 +620,7 @@ function Strategies() {
             <Reveal delay={280}>
               <a
                 href="#"
-                className="strategy-card block rounded-2xl p-8 h-full flex flex-col no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-global"
+                className="strategy-card flex flex-col rounded-2xl p-8 h-full no-underline text-inherit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring bg-strategy-global"
               >
                 <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold">글로벌 분산</h3>
@@ -642,7 +645,10 @@ function Strategies() {
                       올해 수익률
                     </span>
                   </div>
-                  <ArrowRight className="size-4 card-arrow text-primary" />
+                  <span className="inline-flex items-center gap-1 text-sm font-medium card-cta text-muted-foreground transition-colors">
+                    자세히
+                    <ArrowRight className="size-4 card-arrow" />
+                  </span>
                 </div>
               </a>
             </Reveal>
@@ -732,7 +738,7 @@ function Footer() {
   return (
     <footer className="py-12 border-t border-border/40">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" className="text-sm font-bold tracking-tight">
+        <a href="/" className="text-sm font-bold tracking-tight hover:opacity-70 transition-opacity duration-200">
           Curate<span className="text-primary">ETF</span>
         </a>
         <p className="text-xs text-muted-foreground">
@@ -752,7 +758,7 @@ function App() {
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:text-sm focus:font-medium"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:text-sm focus:font-medium"
       >
         본문으로 건너뛰기
       </a>
