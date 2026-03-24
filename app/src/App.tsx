@@ -623,26 +623,77 @@ function Strategies() {
 
 function CtaSection() {
   return (
-    <section
-      id="start"
-      className="py-24"
-      style={{ background: "oklch(0.94 0.04 168)" }}
-    >
-      <div className="max-w-6xl mx-auto px-6 text-center">
+    <section id="start" className="py-24 relative overflow-hidden">
+      {/* Background with stronger teal */}
+      <div
+        className="absolute inset-0 -z-10"
+        style={{ background: "oklch(0.94 0.04 168)" }}
+      />
+      {/* Decorative circle */}
+      <div
+        className="absolute -z-10 rounded-full"
+        style={{
+          width: 400,
+          height: 400,
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          background: "oklch(0.55 0.15 168 / 0.06)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="max-w-2xl mx-auto px-6 text-center">
         <Reveal>
+          {/* Time promise — promoted to hero element */}
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6"
+            style={{
+              background: "oklch(1 0 0)",
+              color: "oklch(0.35 0.12 168)",
+              boxShadow: "0 1px 8px oklch(0.55 0.08 168 / 0.12)",
+            }}
+          >
+            <span
+              className="inline-flex items-center justify-center size-6 rounded-full text-xs font-bold text-white"
+              style={{ background: "oklch(0.55 0.15 168)" }}
+            >
+              3
+            </span>
+            분이면 포트폴리오 완성
+          </div>
+
           <h2
             className="font-bold tracking-tight"
-            style={{ fontSize: "clamp(1.5rem, 3vw + 0.25rem, 2.25rem)" }}
+            style={{ fontSize: "clamp(1.75rem, 3.5vw + 0.25rem, 2.5rem)" }}
           >
-            글로벌 ETF 투자, 같이 시작해봐요!
+            글로벌 ETF 투자,
+            <br />
+            같이 시작해봐요!
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg">
-            3분이면 나만의 포트폴리오를 만들 수 있어요
+
+          <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
+            투자 성향에 맞는 전략을 고르고, 자동으로 포트폴리오를
+            <br className="hidden sm:block" />
+            구성해드려요. 리밸런싱까지 알아서 관리해요
           </p>
+
           <div className="mt-8">
-            <Button size="lg" className="rounded-full px-10">
+            <Button size="lg" className="rounded-full px-10 text-base">
               무료로 시작하기
             </Button>
+          </div>
+
+          {/* Trust signals */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Shield className="size-3.5" />
+              카드 등록 없이 시작
+            </span>
+            <span className="flex items-center gap-1.5">
+              <TrendingUp className="size-3.5" />
+              가입 후 바로 전략 확인
+            </span>
           </div>
         </Reveal>
       </div>
