@@ -305,25 +305,50 @@ function Hero() {
             </HeroItem>
 
             <HeroItem delay={400}>
-              <div className="mt-16 flex flex-wrap gap-x-10 gap-y-3 text-sm">
-                <span className="text-muted-foreground">
-                  <strong className="text-foreground font-semibold tabular-nums">
+              <div
+                className="mt-14 inline-flex flex-wrap gap-6 rounded-2xl px-6 py-5"
+                style={{
+                  background: "oklch(0.97 0.012 168)",
+                  boxShadow: "inset 0 0 0 1px oklch(0.92 0.02 168)",
+                }}
+              >
+                <div className="text-center min-w-[5rem]">
+                  <p className="text-xl font-bold tabular-nums text-foreground">
                     2,400+
-                  </strong>{" "}
-                  ETF 분석
-                </span>
-                <span className="text-muted-foreground">
-                  <strong className="text-foreground font-semibold tabular-nums">
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    분석 ETF 종목
+                  </p>
+                </div>
+                <div
+                  className="w-px self-stretch"
+                  style={{ background: "oklch(0.90 0.02 168)" }}
+                  aria-hidden="true"
+                />
+                <div className="text-center min-w-[5rem]">
+                  <p className="text-xl font-bold tabular-nums text-foreground">
                     ₩3.2조
-                  </strong>{" "}
-                  운용 규모
-                </span>
-                <span className="text-muted-foreground">
-                  <strong className="text-foreground font-semibold tabular-nums">
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    총 운용 규모
+                  </p>
+                </div>
+                <div
+                  className="w-px self-stretch"
+                  style={{ background: "oklch(0.90 0.02 168)" }}
+                  aria-hidden="true"
+                />
+                <div className="text-center min-w-[5rem]">
+                  <p className="text-xl font-bold tabular-nums text-foreground">
                     12.4%
-                  </strong>{" "}
-                  평균 연수익률
-                </span>
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    평균 연수익률
+                    <span className="block text-[10px] text-muted-foreground/70">
+                      최근 3년 기준
+                    </span>
+                  </p>
+                </div>
               </div>
             </HeroItem>
           </div>
